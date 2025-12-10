@@ -1,26 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Telegram Upload Demo</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Telegram Upload Demo</h1>
+<div class="gallery">
 <?php
-if(isset($_FILES['file'])){
-    $filename = $_POST['filename'] ?? $_FILES['file']['name'];
-    $target = "uploads/" . basename($filename);
-
-    if(move_uploaded_file($_FILES['file']['tmp_name'], $target)){
-        $caption = $_POST['caption'] ?? '';
-        
-        // ক্যাপশন JSON ফাইলে সংরক্ষণ (বা DB ব্যবহার করা যাবে)
-        $data = ['file' => $filename, 'caption' => $caption];
-        $json_file = 'uploads/data.json';
-        $all_data = [];
-
-        if(file_exists($json_file)){
-            $all_data = json_decode(file_get_contents($json_file), true);
+$json_file = 'uploads/data.json';
+if(file_exists($json_file)){
+    $data = json_decode(file_get_contents($json_file), true);
+    foreach($data as $item){
+        $file = "uploads/" . $item['file'];
+        $caption = $item['caption'];
+        if(preg_match("/\.(mp4)$/i", $file)){
+            echo "<div class='item'><video controls src='$file'></video><p>$caption</p></div>";
+        } else {
+            echo "<div class='item'><img src='$file'><p>$caption</p></div>";
         }
-
-        $all_data[] = $data;
-        file_put_contents($json_file, json_encode($all_data, JSON_PRETTY_PRINT));
-
-        echo "File uploaded successfully!";
-    } else {
-        echo "Upload failed!";
     }
 }
 ?>
+</div>
+</body>
+</html>
