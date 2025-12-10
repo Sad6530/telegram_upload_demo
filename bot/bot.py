@@ -2,7 +2,7 @@ from telegram import Update
 from telegram.ext import Updater, MessageHandler, Filters, CallbackContext
 import requests
 
-TOKEN = "YOUR_BOT_TOKEN"
+TOKEN = "8538653689:AAHqiJYf8IC169bpJ1r9mm21PZ_yM3px3Hc"
 WEBHOOK_URL = "https://yourwebsite.com/upload.php"  # তোমার সার্ভারে ঠিক URL
 
 def handle_media(update: Update, context: CallbackContext):
